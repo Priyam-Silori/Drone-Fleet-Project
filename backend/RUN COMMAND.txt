@@ -1,0 +1,40 @@
+                                    //for main 
+
+g++ -std=c++17 -I ../include -Wall -Wextra -O2 6_main_module.cpp 1_drone_module.cpp 2_task_module.cpp 3_dijkstras_module.cpp 4_assignment_module.cpp 5_file_module.cpp -o DSA_PBL.exe
+.\DSA_PBL.exe
+
+
+
+
+                                    //for server
+
+# -----------------------------
+# SET ENVIRONMENT VARIABLES
+# -----------------------------
+
+# Add MSVC compiler to PATH
+$env:PATH = "C:\Program Files\Microsoft Visual Studio\18\Insiders\VC\Tools\MSVC\14.50.35717\bin\Hostx64\x64;" + $env:PATH
+
+# Include paths for MSVC, Windows SDK, vcpkg, and our 'include' folder for json.hpp
+$env:INCLUDE = "C:\Program Files\Microsoft Visual Studio\18\Insiders\VC\Tools\MSVC\14.50.35717\include;C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\ucrt;C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\shared;C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\um;C:\vcpkg\installed\x64-windows\include;C:\Users\acer\Desktop\DSA_PBL\include" + ";" + $env:INCLUDE
+
+# Library paths for MSVC, Windows SDK, and vcpkg
+$env:LIB = "C:\Program Files\Microsoft Visual Studio\18\Insiders\VC\Tools\MSVC\14.50.35717\lib\x64;C:\Program Files (x86)\Windows Kits\10\Lib\10.0.22621.0\ucrt\x64;C:\Program Files (x86)\Windows Kits\10\Lib\10.0.22621.0\um\x64;C:\vcpkg\installed\x64-windows\lib" + ";" + $env:LIB
+
+# -----------------------------
+# COMPILE SERVER
+# -----------------------------
+cl.exe /EHsc `
+backend\server.cpp `
+backend\1_drone_module.cpp `
+backend\2_task_module.cpp `
+backend\3_dijkstras_module.cpp `
+backend\4_assignment_module.cpp `
+backend\5_file_module.cpp `
+/link cpprest_2_10.lib ws2_32.lib bcrypt.lib winhttp.lib ole32.lib crypt32.lib `
+/OUT:DSA_PBL.exe
+
+# -----------------------------
+# RUN SERVER
+# -----------------------------
+.\DSA_PBL.exe
