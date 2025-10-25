@@ -9,6 +9,7 @@
 #include "2_task_module.h"
 #include "3_dijkstras_module.h"
 #include "4_assignment_module.h"
+#include "5_file_module.h" 
 
 using namespace std;
 
@@ -162,6 +163,19 @@ int main() {
     // ---------------- Final status ----------------
     printDrones(dronesMap);
     printTasks(tasksMap);
+
+     // ✅ Convert maps → vectors for JSON saving
+    vector<Drone> droneVec;
+    for (auto &d : dronesMap) droneVec.push_back(d.second);
+
+    vector<Task> taskVec;
+    for (auto &t : tasksMap) taskVec.push_back(t.second);
+
+    // ✅ Save JSON files
+    saveDrones("drones.json", droneVec);
+    saveTasks("tasks.json", taskVec);
+
+    cout << "\n✅ JSON files exported successfully (drones.json, tasks.json)\n";
 
     return 0;
 }
