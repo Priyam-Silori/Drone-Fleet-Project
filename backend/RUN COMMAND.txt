@@ -38,3 +38,61 @@ backend\5_file_module.cpp `
 # RUN SERVER
 # -----------------------------
 .\DSA_PBL.exe
+
+
+
+
+
+
+
+
+
+
+
+//              POWERSHELL COMMAND 
+
+# -----------------------------
+# SET ENVIRONMENT VARIABLES
+# -----------------------------
+$env:PATH = "C:\Program Files\Microsoft Visual Studio\18\Insiders\VC\Tools\MSVC\14.50.35717\bin\Hostx64\x64;" + $env:PATH
+
+# Include MSVC + Windows SDK + vcpkg + project includes
+$env:INCLUDE = @(
+    "C:\Program Files\Microsoft Visual Studio\18\Insiders\VC\Tools\MSVC\14.50.35717\include",
+    "C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\ucrt",
+    "C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\shared",
+    "C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\um",
+    "C:\vcpkg\installed\x64-windows\include",
+    "C:\Users\acer\Desktop\DSA_PBL\include"
+) -join ";"
+
+# Library paths
+$env:LIB = @(
+    "C:\Program Files\Microsoft Visual Studio\18\Insiders\VC\Tools\MSVC\14.50.35717\lib\x64",
+    "C:\Program Files (x86)\Windows Kits\10\Lib\10.0.22621.0\ucrt\x64",
+    "C:\Program Files (x86)\Windows Kits\10\Lib\10.0.22621.0\um\x64",
+    "C:\vcpkg\installed\x64-windows\lib"
+) -join ";"
+
+# -----------------------------
+# COMPILE SERVER
+# -----------------------------
+cl.exe /EHsc `
+backend\server.cpp `
+backend\1_drone_module.cpp `
+backend\2_task_module.cpp `
+backend\3_dijkstras_module.cpp `
+backend\4_assignment_module.cpp `
+backend\5_file_module.cpp `
+/link cpprest_2_10.lib ws2_32.lib bcrypt.lib winhttp.lib ole32.lib crypt32.lib `
+/OUT:DSA_PBL.exe
+
+# -----------------------------
+# RUN SERVER
+# -----------------------------
+if (Test-Path ".\DSA_PBL.exe") {
+    Start-Process "explorer.exe" "http://127.0.0.1:8080"
+    .\DSA_PBL.exe
+} else {
+    Write-Host "Compilation failed. Check errors above."
+}
