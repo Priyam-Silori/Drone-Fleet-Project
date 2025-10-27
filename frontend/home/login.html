@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login | Drone Fleet System</title>
+
+    <link rel="stylesheet" href="assets/css/bootstrap-5.0.0-beta1.min.css" />
+    <style>
+      /* ======== BACKGROUND ======== */
+      body {
+        margin: 0;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: radial-gradient(circle at 30% 30%, #111 0%, #000 70%);
+        font-family: "Poppins", sans-serif;
+        color: #fff;
+        overflow: hidden;
+      }
+
+      /* animated floating lights */
+      body::before,
+      body::after {
+        content: "";
+        position: absolute;
+        width: 400px;
+        height: 400px;
+        border-radius: 50%;
+        background: linear-gradient(45deg, #007bff, #00d4ff);
+        filter: blur(150px);
+        opacity: 0.3;
+        animation: float 10s ease-in-out infinite alternate;
+      }
+
+      body::after {
+        right: 10%;
+        bottom: 10%;
+        background: linear-gradient(45deg, #ff0077, #ff6600);
+        animation-delay: 5s;
+      }
+
+      @keyframes float {
+        from {
+          transform: translateY(0px);
+        }
+        to {
+          transform: translateY(40px);
+        }
+      }
+
+      /* ======== LOGIN CARD ======== */
+      .login-container {
+        position: relative;
+        z-index: 10;
+        max-width: 450px;
+        width: 90%;
+        background: rgba(20, 20, 20, 0.8);
+        backdrop-filter: blur(20px);
+        padding: 40px 45px;
+        border-radius: 20px;
+        box-shadow: 0 0 40px rgba(0, 0, 0, 0.7);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+      }
+
+      h3 {
+        text-align: center;
+        margin-bottom: 25px;
+        font-weight: 600;
+        letter-spacing: 1px;
+        color: #00d4ff;
+        text-shadow: 0 0 10px rgba(0, 212, 255, 0.3);
+      }
+
+      /* ======== TOGGLE BUTTONS ======== */
+      .toggle-btns {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 30px;
+      }
+      .toggle-btns button {
+        flex: 1;
+        border: none;
+        padding: 12px;
+        background: #1a1a1a;
+        color: #aaa;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        border-radius: 8px;
+      }
+      .toggle-btns button.active {
+        background: linear-gradient(90deg, #007bff, #00d4ff);
+        color: #fff;
+        box-shadow: 0 0 10px rgba(0, 212, 255, 0.5);
+      }
+
+      /* ======== INPUT FIELDS ======== */
+      .form-control {
+        background: rgba(255, 255, 255, 0.08);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        color: #fff;
+        padding: 12px;
+        border-radius: 8px;
+      }
+      .form-control::placeholder {
+        color: #aaa;
+        opacity: 1;
+      }
+      .form-control:focus {
+        border-color: #00d4ff;
+        box-shadow: 0 0 10px #00d4ff;
+        background: rgba(255, 255, 255, 0.1);
+      }
+
+      /* ======== BUTTON ======== */
+      .submit-btn {
+        width: 100%;
+        background: linear-gradient(90deg, #007bff, #00d4ff);
+        border: none;
+        color: #fff;
+        font-weight: 600;
+        padding: 12px;
+        border-radius: 8px;
+        transition: 0.3s;
+      }
+      .submit-btn:hover {
+        transform: scale(1.02);
+        box-shadow: 0 0 20px rgba(0, 212, 255, 0.5);
+      }
+
+      /* ======== LINKS ======== */
+      .back-home {
+        display: block;
+        text-align: center;
+        color: #aaa;
+        margin-top: 15px;
+        text-decoration: none;
+        transition: 0.3s;
+      }
+      .back-home:hover {
+        color: #fff;
+      }
+
+      /* subtle glow divider */
+      .divider {
+        height: 1px;
+        background: linear-gradient(90deg, transparent, #00d4ff, transparent);
+        margin: 25px 0;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="login-container">
+      <h3>Drone Fleet Login</h3>
+
+      <!-- Toggle between User and Admin -->
+      <div class="toggle-btns">
+        <button id="userBtn" class="active">User</button>
+        <button id="adminBtn">Admin</button>
+      </div>
+
+      <!-- User Form -->
+      <form id="userForm">
+        <div class="mb-3">
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Full Name"
+            required
+          />
+        </div>
+        <div class="mb-3">
+          <input
+            type="email"
+            class="form-control"
+            placeholder="Email ID"
+            required
+          />
+        </div>
+        <div class="mb-3">
+          <input
+            type="tel"
+            class="form-control"
+            placeholder="Phone Number"
+            required
+          />
+        </div>
+        <button type="submit" class="submit-btn">Login / Register</button>
+      </form>
+
+      <!-- Admin Form -->
+      <form id="adminForm" style="display: none">
+        <div class="mb-3">
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Admin ID"
+            required
+          />
+        </div>
+        <div class="mb-3">
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Full Name"
+            required
+          />
+        </div>
+        <div class="mb-3">
+          <input
+            type="email"
+            class="form-control"
+            placeholder="Email ID"
+            required
+          />
+        </div>
+        <div class="mb-3">
+          <input
+            type="password"
+            class="form-control"
+            placeholder="Password"
+            required
+          />
+        </div>
+        <button type="submit" class="submit-btn">Admin Login</button>
+      </form>
+
+      <div class="divider"></div>
+
+      <a href="index.html" class="back-home">← Back to Home</a>
+    </div>
+
+    <script>
+      const userBtn = document.getElementById("userBtn");
+      const adminBtn = document.getElementById("adminBtn");
+      const userForm = document.getElementById("userForm");
+      const adminForm = document.getElementById("adminForm");
+
+      userBtn.addEventListener("click", () => {
+        userBtn.classList.add("active");
+        adminBtn.classList.remove("active");
+        userForm.style.display = "block";
+        adminForm.style.display = "none";
+      });
+
+      adminBtn.addEventListener("click", () => {
+        adminBtn.classList.add("active");
+        userBtn.classList.remove("active");
+        adminForm.style.display = "block";
+        userForm.style.display = "none";
+      });
+
+      document.querySelectorAll("form").forEach((form) => {
+        form.addEventListener("submit", (e) => {
+          e.preventDefault();
+          window.location.href = "dashboard.html";
+        });
+      });
+    </script>
+  </body>
+</html>

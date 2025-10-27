@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Drone Fleet Management System</title>
+    <style>
+      /* ====== GLOBAL ====== */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Poppins", sans-serif;
+      }
+
+      body {
+        background: radial-gradient(circle at top left, #0a0f1c, #000);
+        color: #eaf6ff;
+        overflow-x: hidden;
+      }
+
+      a {
+        text-decoration: none;
+        color: inherit;
+      }
+
+      /* ====== NAVBAR ====== */
+      header {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        backdrop-filter: blur(10px);
+        background: rgba(10, 15, 28, 0.6);
+        border-bottom: 1px solid rgba(3, 233, 244, 0.2);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 18px 60px;
+        z-index: 1000;
+      }
+
+      .logo {
+        font-size: 1.7rem;
+        font-weight: 700;
+        color: #03e9f4;
+        text-shadow: 0 0 10px #03e9f4, 0 0 25px #03e9f4;
+        letter-spacing: 1px;
+      }
+
+      nav ul {
+        display: flex;
+        list-style: none;
+        gap: 35px;
+      }
+
+      nav ul li a {
+        font-size: 1rem;
+        color: #eaf6ff;
+        transition: all 0.3s ease;
+        position: relative;
+      }
+
+      nav ul li a::after {
+        content: "";
+        position: absolute;
+        width: 0%;
+        height: 2px;
+        bottom: -5px;
+        left: 0;
+        background: #03e9f4;
+        transition: 0.3s;
+      }
+
+      nav ul li a:hover::after {
+        width: 100%;
+      }
+
+      nav ul li a:hover {
+        color: #03e9f4;
+      }
+
+      /* ====== HERO ====== */
+      .hero {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 150px 80px 100px;
+        min-height: 100vh;
+        gap: 60px;
+        background: radial-gradient(
+          circle at 20% 30%,
+          rgba(3, 233, 244, 0.05),
+          transparent 60%
+        );
+      }
+
+      .hero-text {
+        max-width: 600px;
+        animation: fadeIn 1.2s ease forwards;
+      }
+
+      .hero-text h1 {
+        font-size: 3rem;
+        color: #03e9f4;
+        margin-bottom: 20px;
+        text-shadow: 0 0 15px #03e9f4;
+      }
+
+      .hero-text p {
+        font-size: 1.1rem;
+        line-height: 1.6;
+        color: #c5d9e8;
+        margin-bottom: 40px;
+      }
+
+      .btn-glow {
+        display: inline-block;
+        padding: 14px 40px;
+        border: 2px solid #03e9f4;
+        color: #03e9f4;
+        border-radius: 50px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .btn-glow:hover {
+        background: #03e9f4;
+        color: #000;
+        box-shadow: 0 0 20px #03e9f4, 0 0 40px #03e9f4;
+      }
+
+      /* ====== HERO IMAGE ====== */
+      .hero-drone {
+        width: 550px;
+        max-width: 90%;
+        border-radius: 20px;
+        margin-top: 20px;
+        filter: drop-shadow(0 0 30px rgba(3, 233, 244, 0.6));
+        animation: float 4s ease-in-out infinite;
+        transition: transform 0.3s ease, filter 0.3s ease;
+      }
+
+      .hero-drone:hover {
+        transform: scale(1.05);
+        filter: drop-shadow(0 0 40px rgba(3, 233, 244, 0.8));
+      }
+
+      @keyframes float {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-15px);
+        }
+      }
+
+      /* ====== FEATURES ====== */
+      .features {
+        padding: 80px 60px;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 40px;
+      }
+
+      .feature-card {
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(3, 233, 244, 0.2);
+        border-radius: 16px;
+        padding: 40px 30px;
+        text-align: center;
+        transition: all 0.4s ease;
+        backdrop-filter: blur(8px);
+      }
+
+      .feature-card:hover {
+        border-color: #03e9f4;
+        box-shadow: 0 0 25px rgba(3, 233, 244, 0.4);
+        transform: translateY(-8px);
+      }
+
+      .feature-card h3 {
+        color: #03e9f4;
+        margin-bottom: 10px;
+      }
+
+      .feature-card p {
+        color: #c5d9e8;
+        line-height: 1.5;
+      }
+
+      /* ====== ABOUT SECTION ====== */
+      .about-system {
+        padding: 100px 60px;
+        text-align: center;
+        background: rgba(255, 255, 255, 0.03);
+        border-top: 1px solid rgba(3, 233, 244, 0.15);
+      }
+
+      .about-system h2 {
+        color: #03e9f4;
+        font-size: 2.2rem;
+        margin-bottom: 20px;
+        text-shadow: 0 0 10px #03e9f4;
+      }
+
+      .about-system p {
+        max-width: 800px;
+        margin: 0 auto 50px;
+        line-height: 1.6;
+        color: #c5d9e8;
+        font-size: 1.05rem;
+      }
+
+      .about-features {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 25px;
+      }
+
+      .about-card {
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(3, 233, 244, 0.2);
+        border-radius: 14px;
+        padding: 30px 25px;
+        width: 280px;
+        transition: all 0.3s ease;
+        backdrop-filter: blur(8px);
+      }
+
+      .about-card:hover {
+        transform: translateY(-6px);
+        border-color: #03e9f4;
+        box-shadow: 0 0 25px rgba(3, 233, 244, 0.4);
+      }
+
+      .about-card h3 {
+        color: #03e9f4;
+        margin-bottom: 10px;
+      }
+
+      .about-card p {
+        color: #c5d9e8;
+        line-height: 1.5;
+      }
+
+      /* ====== FOOTER ====== */
+      footer {
+        text-align: center;
+        padding: 40px;
+        border-top: 1px solid rgba(3, 233, 244, 0.2);
+        color: #999;
+        font-size: 0.9rem;
+      }
+
+      /* ====== ANIMATIONS ====== */
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* ====== RESPONSIVE ====== */
+      @media (max-width: 900px) {
+        header {
+          flex-direction: column;
+          padding: 15px 20px;
+        }
+
+        nav ul {
+          flex-wrap: wrap;
+          justify-content: center;
+          gap: 20px;
+        }
+
+        .hero {
+          flex-direction: column;
+          text-align: center;
+          padding: 120px 20px 80px;
+        }
+
+        .hero-drone {
+          width: 90%;
+        }
+
+        .about-system {
+          padding: 60px 20px;
+        }
+      }
+
+      .hero-img {
+        width: 500px;
+        max-width: 90%;
+        height: auto;
+        border-radius: 20px;
+        box-shadow: 0 0 30px rgba(0, 255, 255, 0.4);
+        animation: float 4s ease-in-out infinite;
+      }
+
+      @keyframes float {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-5px);
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- Navbar -->
+    <header>
+      <div class="logo">DroneFleet</div>
+      <nav>
+        <ul>
+          <li><a href="#home">Home</a></li>
+          <li><a href="#features">Features</a></li>
+          <li><a href="#about-system">About</a></li>
+          <li><a href="login.html">Login</a></li>
+          <li><a href="dashboard.html">Dashboard</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+      <div class="hero-text">
+        <h1>Drone Fleet Management System</h1>
+        <p>
+          Real-time monitoring, smart task allocation, and automated analytics —
+          manage your drone operations seamlessly with one unified dashboard.
+        </p>
+        <a href="dashboard.html" class="btn-glow">Launch Dashboard →</a>
+      </div>
+      <div class="hero-img">
+        <img
+          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ4aOcPizekpMpQsgWGQGKmztvfMz9Gr7lsVA&s"
+          alt="Drone Fleet"
+          class="hero-img"
+        />
+      </div>
+    </section>
+
+    <!-- Features -->
+    <section id="features" class="features">
+      <div class="feature-card">
+        <h3>🗺 Real-Time Tracking</h3>
+        <p>
+          View drone positions and flight paths instantly on an interactive map.
+        </p>
+      </div>
+      <div class="feature-card">
+        <h3>🔋 Battery & Range</h3>
+        <p>
+          Receive live updates on drone battery health and operational range.
+        </p>
+      </div>
+      <div class="feature-card">
+        <h3>🚀 Smart Tasking</h3>
+        <p>
+          Automatically assign drones based on severity and availability
+          metrics.
+        </p>
+      </div>
+    </section>
+
+    <!-- About Our System -->
+    <section id="about-system" class="about-system">
+      <h2>About Our System</h2>
+      <p>
+        Built for scalability and precision, our Drone Fleet Management System
+        enables real-time collaboration, safety checks, and mission planning for
+        diverse industries.
+      </p>
+      <div class="about-features">
+        <div class="about-card">
+          <h3>⚙ Automated Assignment</h3>
+          <p>
+            Smart drone allocation and pathfinding powered by priority-based
+            logic.
+          </p>
+        </div>
+        <div class="about-card">
+          <h3>🔗 Integration-Ready</h3>
+          <p>
+            Seamlessly connects with REST/JSON APIs for real-world drone data
+            exchange.
+          </p>
+        </div>
+        <div class="about-card">
+          <h3>🖥 Web Dashboard</h3>
+          <p>
+            Monitor and control your entire fleet from a clean, futuristic
+            dashboard.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>© 2025 DroneFleet. All rights reserved.</footer>
+  </body>
+</html>
